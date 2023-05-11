@@ -1,3 +1,6 @@
+<?php 
+	session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,26 +39,71 @@
 					<div class="sign">
 						<div class="sign__content">
 							<!-- authorization form -->
-							<form action="#" class="sign__form">
-								<a href="index.html" class="sign__logo">
+							<?php 
+								include("D:/xampp/htdocs/php1/Web2_Nhac-main/Web2_Nhac-main/DataAccess/connect.php");
+								
+								$errors=[];
+								$nameErr = $emailErr = $passErr = $check = "";
+								
+								if(isset($_POST['submit'])){
+									$pass=$_POST['pass'];
+									$mail = ($_POST["email"]);
+
+									if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+										$emailErr = "Định dạng email không hợp lệ";
+									}
+									if(trim($pass)=="") {$passErr = "Password không được bỏ trống";
+														array_push($errors,"");};
+									if(trim($mail)=="") {$emailErr = "Email không được bỏ trống";
+														array_push($errors,"");};
+
+									$sql="select customer.email as email,  customer.name as name, user.UserName as UserName, user.Password as Password , user.Role as Role  
+										from user, customer 
+										where email = UserName and UserName ='$mail' and Password ='$pass'";
+									$data=$conn->query($sql);
+									$numrow=mysqli_num_rows($data);                                               
+									if($numrow!=1) $check = "Email hoặc mật khẩu chưa đúng";
+									if(count($errors)>0){
+										echo "<ul style='color:red'>";
+										foreach($errors as $error ){
+											echo "<li>$error</li>";
+										}
+										echo "</ul>";
+									}
+									else{
+										$row=$data->fetch_assoc();
+												$_SESSION['login'] = $row['Role'];
+												echo "Đăng nhập thành công"; 
+												$_SESSION['dangki'] = $row['name'];
+												echo '<meta http-equiv="refresh" content="0; url= index.php">';   
+												// header("location: index.php");  
+
+																						
+									}
+								}
+							?>	
+							<form action="#" class="sign__form" method="post">
+								<a href="index.php" class="sign__logo">
 									<img src="img/logo.png" alt="">
 								</a>
 
 								<div class="sign__group">
-									<input type="text" class="sign__input" placeholder="Email">
+									<input type="text" class="sign__input" name="email" placeholder="Email">
 								</div>
-
+								
+								<span class="error"> <?php echo $emailErr;?></span>
 								<div class="sign__group">
-									<input type="password" class="sign__input" placeholder="Password">
+									<input type="password" class="sign__input" name="pass" placeholder="Password">
 								</div>
 
+								<span class="error"> <?php echo $passErr;?></span>	
 								<div class="sign__group sign__group--checkbox">
 									<input id="remember" name="remember" type="checkbox" checked="checked">
 									<label for="remember">Remember Me</label>
 								</div>
 								
-								<button class="sign__btn" type="button">Sign in</button>
-
+								<button class="sign__btn" type="submit" name="submit">Sign in</button>
+								<span class="error"> <?php echo $check;?></span>	
 								<span class="sign__delimiter">or</span>
 
 								<div class="sign__social">
@@ -64,10 +112,11 @@
 									<a class="gl" href="#"><svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><path d='M473.16 221.48l-2.26-9.59H262.46v88.22H387c-12.93 61.4-72.93 93.72-121.94 93.72-35.66 0-73.25-15-98.13-39.11a140.08 140.08 0 01-41.8-98.88c0-37.16 16.7-74.33 41-98.78s61-38.13 97.49-38.13c41.79 0 71.74 22.19 82.94 32.31l62.69-62.36C390.86 72.72 340.34 32 261.6 32c-60.75 0-119 23.27-161.58 65.71C58 139.5 36.25 199.93 36.25 256s20.58 113.48 61.3 155.6c43.51 44.92 105.13 68.4 168.58 68.4 57.73 0 112.45-22.62 151.45-63.66 38.34-40.4 58.17-96.3 58.17-154.9 0-24.67-2.48-39.32-2.59-39.96z'/></svg></a>
 								</div>
 
-								<span class="sign__text">Don't have an account? <a href="signup.html">Sign up!</a></span>
+								<span class="sign__text">Don't have an account? <a href="signup.php">Sign up!</a></span>
 
 							</form>
 							<!-- end authorization form -->
+																								
 						</div>
 					</div>
 				</div>
@@ -162,7 +211,7 @@
 	<!-- end modal info -->
 
 	<!-- JS -->
-	<script src="js/jquery-3.5.1.min.js"></script>
+	    <script src="js/jquery-3.6.4.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script>
@@ -171,6 +220,7 @@
 	<script src="js/slider-radio.js"></script>
 	<script src="js/jquery.inputmask.min.js"></script>
 	<script src="js/plyr.min.js"></script>
+	<script src="js/check.js"></script>
 	<script src="js/main.js"></script>
 </body>
 

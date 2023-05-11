@@ -4,7 +4,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
 	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
@@ -34,25 +33,100 @@
 				<div class="col-12">
 					<div class="sign">
 						<div class="sign__content">
-							<form action="#" class="sign__form">
-								<a href="index.html" class="sign__logo">
+						<?php 
+								include("D:/xampp/htdocs/php1/Web2_Nhac-main/Web2_Nhac-main/DataAccess/connect.php");
+
+
+								$errors=[];
+								$nameErr = $emailErr = $passErr = $pass2Err = $phoneErr  = $check = "";
+								if(isset($_POST['submit'])){
+									$name=$_POST['name'];
+									$pass=$_POST['pass'];
+									$pass2=$_POST['pass2'];
+									$phone=$_POST['phone'];
+									$mail = ($_POST["email"]);
+
+									if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+										$emailErr = "Định dạng email không hợp lệ";
+									}
+
+									if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+										$nameErr = "Chỉ cho phép chữ cái và khoảng trắng";
+									  }
+
+									if (!preg_match ("/^[0-9]*$/",$phone)) {
+										$phoneErr = "Chỉ cho phép chữ cái và khoảng trắng";
+									  }
+									if(trim($name)=="") {$nameErr = " Name không được bỏ trống";
+														array_push($errors,"");};
+									if(trim($pass)=="") {$passErr = "Password không được bỏ trống";
+														array_push($errors,"");};
+									if(trim($pass2)=="") {$pass2Err = "Password không được bỏ trống";
+														array_push($errors,"");};
+									if(!($pass === $pass2)) {$pass2Err = "Pasword không trùng khớp";
+														array_push($errors,"");};					
+									if(trim($mail)=="") {$emailErr = "Email không được bỏ trống";
+														array_push($errors,"");};
+									if(trim($phone)=="") {$phoneErr = "Phone không được bỏ trống";
+														array_push($errors,"");};
+									$sql="select * from user where userName='$name'";
+									
+									$data=$conn->query($sql);
+									$numrow=mysqli_num_rows($data);
+									if($numrow>0) {$check = " Name không được bỏ trống";
+													array_push($errors,"");};
+									
+									if(count($errors)>0){
+										echo "<ul style='color:red'>";
+										foreach($errors as $error ){
+											echo "<li>$error</li>";
+										}
+										echo "</ul>";
+									}else{
+										$sql = "INSERT INTO customer (email, name, phone) 
+										VALUES ('$mail', '$name', '$phone' )";  
+										$conn->query($sql);
+										$sql ="INSERT INTO user (UserName, Password ,Role) 
+												VALUES ('$mail', '$pass' ,'3')";  
+										$conn->query($sql);
+										// echo "Đã đăng kí thành công"; 
+										$_SESSION['dangki'] = $name;
+										$_SESSION['id_kh'] = mysqli_insert_id($conn);
+										header("location: signin.php");  
+								}
+								
+								}  
+					?>
+
+					
+							<form class="sign__form" method="post">
+								<a href="index.php" class="sign__logo">
 									<img src="img/logo.png" alt="">
 								</a>
 
 								<div class="sign__group">
-									<input type="text" class="sign__input" placeholder="Name">
+									<input type="text" class="sign__input" name="name" placeholder="Name">
 								</div>
-
+								<span class="error"> <?php echo $nameErr;?></span>
 								<div class="sign__group">
-									<input type="text" class="sign__input" placeholder="Email">
+									<input type="text" class="sign__input" name="phone" placeholder="Phone">
 								</div>
-
+								<span class="error"> <?php echo $phoneErr;?></span>
 								<div class="sign__group">
-									<input type="password" class="sign__input" placeholder="Password">
+									<input type="text" class="sign__input" name="email" placeholder="Email">
 								</div>
+								<span class="error"> <?php echo $emailErr;?></span>
+								<div class="sign__group">
+									<input type="password" class="sign__input" name="pass" placeholder="Password">
+								</div>
+								<span class="error"> <?php echo $passErr;?></span>	
+								<div class="sign__group">
+									<input type="password" class="sign__input" name="pass2" placeholder="Repeat Password">
+								</div>
+								<span class="error"> <?php echo $pass2Err;?></span>	
+								<button class="sign__btn" type="submit" name="submit">Sign up</button>
+								<span class="error"> <?php echo $check;?></span>	
 								
-								<button class="sign__btn" type="button">Sign up</button>
-
 								<span class="sign__delimiter">or</span>
 
 								<div class="sign__social">
@@ -61,7 +135,7 @@
 									<a class="gl" href="#"><svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><path d='M473.16 221.48l-2.26-9.59H262.46v88.22H387c-12.93 61.4-72.93 93.72-121.94 93.72-35.66 0-73.25-15-98.13-39.11a140.08 140.08 0 01-41.8-98.88c0-37.16 16.7-74.33 41-98.78s61-38.13 97.49-38.13c41.79 0 71.74 22.19 82.94 32.31l62.69-62.36C390.86 72.72 340.34 32 261.6 32c-60.75 0-119 23.27-161.58 65.71C58 139.5 36.25 199.93 36.25 256s20.58 113.48 61.3 155.6c43.51 44.92 105.13 68.4 168.58 68.4 57.73 0 112.45-22.62 151.45-63.66 38.34-40.4 58.17-96.3 58.17-154.9 0-24.67-2.48-39.32-2.59-39.96z'/></svg></a>
 								</div>
 
-								<span class="sign__text">Already have an account? <a href="signin.html">Sign in!</a></span>
+								<span class="sign__text">Already have an account? <a href="signin.php">Sign in!</a></span>
 							</form>
 						</div>
 					</div>
@@ -157,7 +231,7 @@
 	<!-- end modal info -->
 
 	<!-- JS -->
-	<script src="js/jquery-3.5.1.min.js"></script>
+	    <script src="js/jquery-3.6.4.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script>
@@ -167,6 +241,7 @@
 	<script src="js/jquery.inputmask.min.js"></script>
 	<script src="js/plyr.min.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/check.js"></script>
 </body>
 
 </html>
