@@ -1,124 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best-Music</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/admin/css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
-<body>
-    <div class="container-fluid nav_container">
-        <div class="menu">
-            <div class="menu-header">
-                <a href="./QuanLy.php" class="menu-header-logo"> <img src="/image_web/logo.png" class="menu-logo" alt=""></a>
-            </div>
-            <div class="menu-bar">
-               <div class="menu-author w-100 p-3 rounded">
+<?php
+    include '../inc/header.php';
+    include '../controller/UserManager.php';
+?>
+<?php
 
-                    <div class="author-image">
-                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 48px;"
-                        alt="Avatar" />
-                    </div>
-                    <div class="author-inf">
-                        <p class="author-name si">DoAnMonHoc</p>
-                        <p class="author-em">Admin</p>
-                    </div>
+     $class = new UserManager();
+     $listUser = $class->getAll();
+     if($listUser != null)
+        $length = count($listUser); 
+    $row =ceil($length/6);
 
-               </div>
-               <div class="menu-content">
-                    <ul class="list-group nav-menu-list">
-                        <li class="list-group-item menu-item">E-Commerce</li>
-                        <li class="list-group-item menu-item rounded-pill" id="tag-dashboard">
-                            <a href="ThongKe.php" class="menu-icon-sub rounded-pill">
-                                <span class="rounded-circle icon-link"><i class="bi bi-bar-chart "></i></span>
-                                <span class="icon-title">Thống kê</span>
-                            </a>
-
-                        </li>
-
-                        <li class="list-group-item menu-item" onclick="openTab(id)" id='tag-music'>
-                            <a href="#" class="menu-icon-sub">
-                                <span class="rounded-circle icon-link"><i class="bi bi-music-note"></i></span>
-                                <span class="icon-title">Nhạc</span>
-                                <span class="icon-link"> <i class="icon-next bi bi-arrow-right"></i></span>
-                            </a>
-                            <ul class="list-group display-tag-none" myname="False">
-                                <li class="list-group-item menu-item rounded-pill ">
-                                    <a href="./LoaiNhac.php" class="menu-icon-sub rounded-pill">
-                                        <span class="icon-title sub-list">Loại nhạc</span>
-                                    </a>
         
-                                </li>
-                                <li class="list-group-item menu-item rounded-pill" id="tag-details">
-                                    <a href="./BaiHat.php" class="menu-icon-sub rounded-pill">
-                                        <span class="icon-title sub-list">Bài Hát</span>
-                                    </a>
-        
-                                </li>
-                            </ul>
+?>
 
-                        </li>
-                        <li class="list-group-item menu-item" onclick="openTab(id)" id='tag-singer'>
-                            <a href="#" class="menu-icon-sub">
-                                <span class="rounded-circle icon-link"><i class="bi bi-person"></i></span>
-                                <span class="icon-title">Người phát triển</span>
-                                <span class="icon-link"> <i class="icon-next bi bi-arrow-right"></i></span>
-                            </a>
-                            <ul class="list-group display-tag-none" myname="False">
-                                <li class="list-group-item menu-item rounded-pill" id="tag-listView">
-                                    <a href="./CaSi.php" class="menu-icon-sub rounded-pill">
-                                        <span class="icon-title sub-list">Ca sĩ</span>
-                                    </a>
-        
-                                </li>
-                                <li class="list-group-item menu-item rounded-pill" id="tag-productDetail">
-                                    <a href="./Album.php" class="menu-icon-sub rounded-pill">
-                                        <span class="icon-title sub-list">Album</span>
-                                    </a>
-        
-                                </li>
-                            </ul>
-
-                        </li>
-
-                        <li class="list-group-item menu-item rounded-pill" id="load">
-                            <a href="#" class="menu-icon-sub rounded-pill">
-                                <span class="rounded-circle icon-link"><i class="bi bi-person-badge"></i></span>
-                                <span class="icon-title">Tài khoản</span>
-                            </a>
-                           
-
-                        </li>
-                        
-                    </ul>
-               </div>
-            </div>
-        </div>
-        <div class="content">
-
-            <!-- thanh tìm kiếm và user -->
-            <div class="content-slider_bar">
-                <div class="input-group">
-                    <div class="input-group-prepend rounded">
-                        <button type="submit" class="btn btn-search pr-1">
-                            <i class="rounded bi bi-search"></i>
-                        </button>
-                    </div>
-                    <input type="text" placeholder="Search ..." class="form-control">
-                </div>
-                <div class="author-logout" style="position: relative;">
-                    <i class="bi bi-person"></i>
-                    <div class="log-out" >Log Out
-                        <span></span>
-                    </div>
-                </div>
-            </div>
 
             <!-- Chuyển hướng con trỏ -->
             <div class="page-header">
@@ -156,43 +50,47 @@
                     </div>
                         </div>
                         <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
-                            <thead>
-                                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Mã: activate to sort column descending" style="width: 74.05px;">Email</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Tên: activate to sort column ascending" style="width: 199.475px;">Tên</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Hình: activate to sort column ascending" style="width: 77.775px;">Mật khẩu</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Thể loại: activate to sort column ascending" style="width: 92.1625px;">Số điện thoại</th></tr>
+                        <thead>
+                                <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Mã: activate to sort column descending" style="width: 74.05px;">Email</th>
+                                <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Hình: activate to sort column ascending" style="width: 77.775px;">Mật khẩu</th>
+                                 <th style="width: 100px;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">Action</th>
+                                </tr>
                             </thead>
                             <tfoot>
-                                <tr><th rowspan="1" colspan="1">Email</th><th rowspan="1" colspan="1">Tên</th><th rowspan="1" colspan="1">Mật khẩu</th><th rowspan="1" colspan="1">Số điện thoại</th></tr>
+                                <tr><th rowspan="1" colspan="1">Email</th><th rowspan="1" colspan="1">Mật khẩu</th>
+                                 <th rowspan="1" colspan="1">Action</th></tr>
                             </tfoot>
-                            <tbody>                                                                    
-                                <tr role="row" class="odd">
-                                            <td class="sorting_1">Trong123@gmail.com</td>
-                                            <td>Trọng Nguyễn</td>
-                                            <td>123</td>
-                                            <td>123456789</td>
+                            <tbody>    
+                            <?php
+                                if($listUser != null){
+
+                                        foreach($listUser as $value){
+                                            $username = $value->get_UserName();
+                                            $password = $value->get_Password();
+                                           echo"
+                                                <tr role='row' class='odd'>
+                                                <td class='sorting_1'>
+                                                 $username
+                                                </td>  
+                                                <td>
+                                                    $password
+                                                </td>
+                                                <td>
+                                                        <div class='form-button-action'>
+                                                            
+                                                            <button type='submit' data-toggle='tooltip' title='' class='btn btn-link btn-danger' data-original-title='Remove'><a>
+                                                            <i class='fa fa-times'></i> edit</a>
+                                                            </button>
                                             
-                                        </tr>
-                                <tr role="row" class="odd">
-                                            <td class="sorting_1">Truong@gmail.com</td>
-                                            <td>Quang Trường</td>
-                                            <td>123</td>
-                                            <td>123456789</td>
-                                            
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Tien@gmail.com</td>
-                                    <td>Tiến</td>
-                                    
-                                    <td>123</td>
-                                    <td>123456789</td>
-                                    
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Admin</td>
-                                    <td>Admin</td>
-                                    
-                                    <td>123</td>
-                                    <td>123456789</td>
-                                    
-                                </tr>
+                                                        </div>  
+                                                </td>            
+                                            </tr>
+                                           "; 
+                                        }
+                                    }
+                                ?>                                                                  
+
 
                             </tbody>
                         </table>
@@ -202,16 +100,28 @@
                             </div>
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
-                                    <ul class="pagination">
-                                        <li class="paginate_button page-item previous disabled" id="add-row_previous">
-                                            <a href="#" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                        </li>
-                                        <li class="paginate_button page-item active">
-                                            <a href="#" aria-controls="add-row" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                        </li>
-                                        <li class="paginate_button page-item next disabled" id="add-row_next">
-                                            <a href="#" aria-controls="add-row" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
-                                        </li>
+                                <ul class="pagination">
+                                                 <li class="paginate_button page-item previous" id="add-row_previous">
+                                                        <a aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                 </li>
+          
+                                            <?php
+                                            for($i = 1;$i <= $row; $i++)
+                                            {
+                                                echo "
+                                                <li class='paginate_button page-item active' >
+                                                            <a id='$i' style='background-color: blue !important'  aria-controls='add-row' data-dt-idx='1' tabindex='0' class='page-link'>$i</a>
+                                                </li>
+                                                ";
+                                            }
+                                            ?>
+                                            
+
+                                                <li class="paginate_button page-item next disabled" id="add-row_next">
+                                                        <a href="#" aria-controls="add-row" data-dt-idx="2" tabindex="1" class="page-link">Next</a>
+                                                    </li>
+
+
                                     </ul>
                                 </div>
                             </div>
@@ -221,29 +131,10 @@
         </div>
 
     </div>
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Trợ giúp
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Giấy phép
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright ml-auto">
-                    2023, made with <i class="bi bi-heart text-danger"></i> by <a href="">Nguyễn Hửu Trọng - Lê Quang Trường - Nguyễn Minh Tiến</a>
-                </div>				
-            </div>
-        </footer>
+    <?php
+            include '../inc/footer.php'
+        ?>
     </div>
-    <script src="/admin/js/main.js"></script>
     
 </body>
 </html>
