@@ -374,7 +374,7 @@ td {
 }
 
 .cart_sta {
-    margin-top: 550px;
+    margin-top: 100px;
     align-items: center;
     width: 100%;
 }
@@ -388,6 +388,7 @@ td {
             flex-wrap: wrap;
             width: 100%;
             margin: 0 10px;
+            margin-bottom: 20px;
         }
 
 .cart_customer, .cart_sum, .cart_music {
@@ -426,13 +427,30 @@ td {
     background-color: #ccc;
     margin-top: 38px;
 }
+option{
+    color: #000;
+}
+.flexBlock{
+    display: flex;
+    justify-content: space-around;
+    flex: 100%;
+    flex-wrap: wrap;
+}
+.flexBlock li{
+    margin-bottom: 10px;
+}
 
 .optionAdd {
     margin-top: 10px;
     display: flex;
     justify-content: space-around;
 }
-
+.audioTest{
+    width: 150px;
+}
+textarea{
+    color: #000;
+}
 .form-add {
     display: flex;
     justify-content: center;

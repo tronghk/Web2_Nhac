@@ -113,44 +113,42 @@ openTab('openTab');
 //     }
 
 
-window.onload = function () {
-
-    var chart = new CanvasJS.Chart("canvas_chart", {
-        exportEnabled: true,
-        backgroundColor: "#ccc",
-        animationEnabled: true,
-        title:{
-            text: "Biểu đồ thống kê bài hát"
-        },
-        legend:{
-            cursor: "pointer",
-            itemclick: explodePie
-        },
-        data: [{
-            type: "pie",
-            showInLegend: true,
-            toolTipContent: "{name}: <strong>{y}%</strong>",
-            indexLabel: "{name} - {y}%",
-            dataPoints: [
-                { y: 25, name: "Nơi này có anh", exploded: true },
-                { y: 15, name: "Chỉ riêng em" },
-                { y: 10, name: "Khác biệt" },
-                { y: 50, name: "Bài hát khác" }
-            ]
-        }]
-    });
-    chart.render();
-    }
+// $('.loadsta').click(function(){
+//     var chart = new CanvasJS.Chart("canvas_chart", {
+//         exportEnabled: true,
+//         backgroundColor: "#ccc",
+//         animationEnabled: true,
+//         title:{
+//             text: "Biểu đồ thống kê bài hát"
+//         },
+//         legend:{
+//             cursor: "pointer",
+//             itemclick: explodePie
+//         },
+//         data: [{
+//             type: "pie",
+//             showInLegend: true,
+//             toolTipContent: "{name}: <strong>{y}%</strong>",
+//             indexLabel: "{name} - {y}%",
+//             dataPoints: [
+//                 { y: 25, name: "Nơi này có anh", exploded: true },
+//                 { y: 15, name: "Chỉ riêng em" },
+//                 { y: 10, name: "Khác biệt" },
+//                 { y: 50, name: "Bài hát khác" }
+//             ]
+//         }]
+//     });
+//     chart.render();
     
-    function explodePie (e) {
-        if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
-            e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
-        } else {
-            e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
-        }
-        e.chart.render();
-    
-}
+//     function explodePie (e) {
+//         if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+//             e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+//         } else {
+//             e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+//         }
+//         e.chart.render();
+//     }
+// });
 
 var tagLog = false;
 
@@ -173,3 +171,30 @@ $(logOut).click(function(){
 //     const add = document.querySelector('.add-form');
 //     add.style.display = 'block';
 // })
+
+function readUrl(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('.update-image')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(150);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function readUrlAudio(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('.update-audio')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(150);
+        };
+        reader.readAsDataURL(input.files[0]);
+        document.querySelector('.audioTest').load();
+    }
+}

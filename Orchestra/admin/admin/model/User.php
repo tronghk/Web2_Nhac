@@ -17,11 +17,11 @@
             return $this->password;
         }
         public function get_Role(){
-            return self::$role;
+            return $this->role;
         }
 
         public function set_Role($role){
-            return self::$role;
+            $this->role = $role;
         }
         public function set_UserName($username){
             $this->username = $username;

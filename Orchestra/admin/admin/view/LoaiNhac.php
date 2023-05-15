@@ -1,7 +1,49 @@
 <?php
     include '../inc/header.php';
+    include '../controller/GenreSongManager.php';
 
 ?>
+<?php
+    
+    $class = new GenreSongManager();
+    $helper = new Format();
+    $class->get();
+    $class->edit();
+    $class->add();
+    
+    $rEdit = $class->editGenre();
+    $rAdd = $class->addGenre();
+    $rDelete = $class->deleteGenre();
+    $class->search();
+
+
+    $row = 0;
+    $length = 1;
+    $list = $_SESSION["list"];
+    $trang =$_SESSION["trang"];
+    $object = $_SESSION['object'];
+    $add = $_SESSION['add'];
+
+
+    if($list != null)
+        $length = $class->count();
+        $row = ceil($length/6);
+    if($row*6 < $length)
+        $row = $row+1;
+
+        
+    if($rEdit != null){
+        $message = "Sửa thể loại ".$helper->messageResult($rEdit);
+    }
+    if($rAdd != null){
+        $message = "Thêm thể loại ".$helper->messageResult($rAdd);
+    }
+
+    if($rDelete != null){
+        $message = "Xóa thể loại ".$helper->messageResult($rDelete);
+    }
+    ?>
+
 
 
             <!-- Chuyển hướng con trỏ -->
@@ -34,8 +76,10 @@
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">Thêm thể loại</h4>
                         <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
-                            <i class="bi bi-plus"></i>
+                        <a href="LoaiNhac.php?add=''">
+                        <i class="bi bi-plus"></i>
                             Thêm thể loại
+                        </a>
                         </button>
                     </div>
                 </div>
@@ -49,7 +93,9 @@
                                             <option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6">
                                                 <div id="add-row_filter" class="dataTables_filter">
                                                     <label>Search:
-                                                        <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="add-row">
+                                                    <form action="" method="post">
+                                                            <input type="search" name="search" value="<?php echo $_SESSION['search']; ?>"   class="form-control form-control-sm" placeholder="" aria-controls="add-row">
+                                                            </form>
                         </label>
                     </div>
                     </div>
@@ -62,104 +108,99 @@
                                 <tr><th rowspan="1" colspan="1">Mã</th><th rowspan="1" colspan="1">Tên</th><th rowspan="1" colspan="1">Action</th></tr>
                             </tfoot>
                             <tbody>                                                                    
-                                <tr role="row" class="odd">
-                                            <td class="sorting_1">TP00</td>
-                                            <td>Nhạc thiếu nhi</td>
-                                            <td>
-                                                <div class="form-button-action">
-                                                    <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN10">
-                                                        <i class="fa fa-edit"></i> edit
-                                                    </a></button>
-                                                    <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN10">
-                                                    <i class="fa fa-times"></i> delete</a>
-                                                    </button>
-                                            
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
-                               <tr role="row" class="odd">
-                                            <td class="sorting_1">TP01</td>
-                                            <td>Nhạc trẻ</td>
-                                            <td>
-                                                <div class="form-button-action">
-                                                    <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN10">
-                                                        <i class="fa fa-edit"></i> edit
-                                                    </a></button>
-                                                    <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN10">
-                                                    <i class="fa fa-times"></i> delete</a>
-                                                    </button>
-                                            
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
-                                 <tr role="row" class="odd">
-                                            <td class="sorting_1">TP02</td>
-                                            <td>Nhạc Trữ tình</td>
-                                            <td>
-                                                <div class="form-button-action">
-                                                    <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN10">
-                                                        <i class="fa fa-edit"></i> edit
-                                                    </a></button>
-                                                    <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN10">
-                                                    <i class="fa fa-times"></i> delete</a>
-                                                    </button>
-                                            
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
-                                    <tr role="row" class="odd">
-                                            <td class="sorting_1">TP03</td>
-                                            <td>Nhạc Trung</td>
-                                            <td>
-                                                <div class="form-button-action">
-                                                    <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN10">
-                                                        <i class="fa fa-edit"></i> edit
-                                                    </a></button>
-                                                    <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN10">
-                                                    <i class="fa fa-times"></i> delete</a>
-                                                    </button>
-                                            
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
-                                    <tr role="row" class="odd">
-                                            <td class="sorting_1">TP04</td>
-                                            <td>Nhạc Âu Mỹ</td>
-                                            <td>
-                                                <div class="form-button-action">
-                                                    <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN10">
-                                                        <i class="fa fa-edit"></i> edit
-                                                    </a></button>
-                                                    <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN10">
-                                                    <i class="fa fa-times"></i> delete</a>
-                                                    </button>
-                                            
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
+                            <?php
+                                if($list != null){
+
+                                        foreach($list as $value){
+                                            $id = $value->get_id();
+                                            $name = $value->get_name();
+                                            echo'
+                                                <tr role="row" class="odd">
+                                                    <td class="sorting_1">
+                                                    '.$id.'
+                                                    </td>  
+                                                    <td>
+                                                        '.$name.'
+                                                    </td>
+                                                    <td>
+                                                            <div class="form-button-action">
+                                                                
+                                                                <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger"
+                                                                data-original-title="Edit">
+                                                                <a href="LoaiNhac.php?edit='.$id.'">
+                                                                edit</a>
+                                                                </button>
+
+                                                                <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger"
+                                                                data-original-title="delete">
+                                                                
+                                                                <a href="LoaiNhac.php?delete='.$id.'">
+                                                                <i class="fa fa-times"></i>
+                                                                delete</a>
+                                                                </button>
+                                                
+                                                            </div>  
+                                                    </td>            
+                                            </tr>
+                                           '; 
+                                        }
+                                    }
+                                ?>                                                                  
+
                                 </tbody>
                         </table>
                         <div class="row">
-                            <div class="col-sm-12 col-md-5">
-                                <div class="dataTables_info" id="add-row_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="add-row_info" role="status" aria-live="polite">
+                                    <?php
+                                    echo 'Showing '.$trang.' to '.$row.' of 6 entries '
+                                ?></div>
                             </div>
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
                                     <ul class="pagination">
-                                        <li class="paginate_button page-item previous disabled" id="add-row_previous">
-                                            <a href="#" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                        </li>
-                                        <li class="paginate_button page-item active">
-                                            <a href="#" aria-controls="add-row" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                        </li>
-                                        <li class="paginate_button page-item next disabled" id="add-row_next">
-                                            <a href="#" aria-controls="add-row" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
-                                        </li>
+                                    <?php
+                                            if($trang == 1){
+                                                echo'
+                                                <li class="disabled paginate_button page-item previous" id="add-row_previous">
+                                                <a aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                                ';
+                                            }else{
+                                                echo'
+                                                <li class=" paginate_button page-item previous" id="add-row_previous">
+                                                <a href="LoaiNhac.php?trang='.($trang-1).'" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                                ';
+                                            }
+                                            for($i = 1;$i <= $row; $i++)
+                                            {
+                                                if($trang != $i){
+                                                    echo '<li class="paginate_button page-item active" ><a href="LoaiNhac.php?trang='.$i.'"
+                                                    id='.$i.' style="background-color: blue !important"  aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                                                     class="page-link">'.$i.'</a></li>';
+                                                }else{
+                                                    echo '<li class="paginate_button page-item active" ><a href="#"
+                                                    id='.$i.' style="background-color: red !important"  aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                                                     class="page-link">'.$i.'</a></li>';
+                                                }
+                                               
+                                            }
+
+                                            if($trang == $row){
+                                                echo'
+                                                <li class="disabled paginate_button page-item previous" id="add-row_previous">
+                                                <a aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+                                                </li>
+                                                ';
+                                            }else{
+                                                echo'
+                                                <li class=" paginate_button page-item previous" id="add-row_previous">
+                                                <a href="LoaiNhac.php?trang='.($trang+1).'" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+                                                </li>
+                                                ';
+                                            }
+                                            ?>
                                     </ul>
                                 </div>
                             </div>
@@ -173,6 +214,102 @@
             include '../inc/footer.php'
         ?>
     </div>
+    <?php
+    if($object != null){
+        echo'
+        <form action="LoaiNhac.php" method="post" class="form-add align-content-center justify-content-center " style="display: flex;">
+        <div class="form-group add-form" >
+             <a href="LoaiNhac.php?trang='.($trang).'" >
+                <i class="out bi bi-x-circle-fill"></i>
+           </a>
+            <h1 class="card-title text-center m-lg-3 mt-0" >
+                Thông tin thể loại
+            </h1>
     
+            <span >Mã thể loại:</span> <input name="id" required="required" readonly="readonly" value="'.$object->get_id().'" type="text">
+            <span >Tên thể loại:</span> <input name="name" required="required" value="'.$object->get_name().'" type="text"> <br><br>
+                       
+             
+            <br>
+            <div class="optionAdd">
+                <div class="d-block text-center">
+                    <br><br>
+                    Lựa chọn: <br>
+                    <button  type="submit"  class="load-form btn btn-primary btn-round ml-auto text-center " style="width: 150px; height: 40px; margin-top: 15px;">
+                            
+                    <i class="bi bi-plus"></i>
+                        Sửa thể loại
+                    </button>
+                </div>
+                
+               
+                
+            </div>
+            
+    
+        </div>
+    </form>
+        ';
+    }
+    if($add != null){
+        echo'
+        <form action="LoaiNhac.php" method="post" class="form-add align-content-center justify-content-center " style="display: flex;">
+        <div class="form-group add-form" >
+             <a href="LoaiNhac.php?trang='.($trang).'" >
+                <i class="out bi bi-x-circle-fill"></i>
+           </a>
+            <h1 class="card-title text-center m-lg-3 mt-0" >
+                Thông tin album
+            </h1>
+    
+            <span >Mã thể loại:</span> <input name="idadd" required="required" readonly="readonly" value="'.$add.'" type="text">
+            <span >Tên thể loại:</span> <input name="nameadd" required="required" value="" type="text"> <br><br>
+                       
+             
+            <br>
+            <div class="optionAdd">
+                <div class="d-block text-center">
+                    <br><br>
+                    Lựa chọn: <br>
+                    <button  type="submit"  class="load-form btn btn-primary btn-round ml-auto text-center " style="width: 150px; height: 40px; margin-top: 15px;">
+                            
+                    <i class="bi bi-plus"></i>
+                        Thêm thể loại
+                    </button>
+                </div>
+                
+               
+                
+            </div>
+            
+    
+        </div>
+    </form>
+        ';
+    }
+   ?>
+   <?php
+    if($rEdit != null || $rAdd != null || $rDelete != null){
+        echo'
+                        <div class="message-action" style="width:100%;display:flex;justify-content:center">
+                        <div id="msgAlert" class="panel-body text-center" style="position: fixed;top:0;z-index: 1001; width:130%;">
+                        <div class="form-alert">
+                            <div class="alert">
+                                '.$message.'
+                            </div>
+                        </div>
+                        
+                    </div>
+                    </div>
+                    
+                <script>
+                setTimeout(function(){
+                    $("#msgAlert").fadeOut("slow");
+                },2000); 
+
+                </script>
+        ';
+    }
+   ?>
 </body>
 </html>

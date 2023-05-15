@@ -3,11 +3,8 @@
 
 ?>
 
-            <div id="canvas_chart">
-
-            </div>
             <div class="cart_sta">
-               <ul>
+               <ul class="flexBlock">
                     <li class="cart_customer">
                             <span>Thành viên: </span>
                             <span>50</span>
@@ -19,8 +16,16 @@
                     </li>
 
                     <li class="cart_sum">
-                        <span>Doanh thu: </span>
-                        <span>100000000$</span>
+                        <span>Thể loại: </span>
+                        <span>10</span>
+                    </li>
+                    <li class="cart_sum">
+                        <span>Ca sĩ: </span>
+                        <span>10</span>
+                    </li>
+                    <li class="cart_sum">
+                        <span>Album: </span>
+                        <span>10</span>
                     </li>
                </ul>
             </div>

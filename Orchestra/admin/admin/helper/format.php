@@ -33,5 +33,35 @@ class Format{
     }
     return $title = ucfirst($title);
    }
+   public function messageResult($result){
+      $message = "";
+           switch ($result)
+            {
+                case "success": {
+                        $message = "Thành công"; break; 
+                }
+                case "error":
+                    {
+                        $message = "Lỗi không xác định"; break;
+                    }
+                case "error_empty":
+                    {
+                        $message = "Lỗi do đối tượng là null"; break;
+                    }
+                case "error_create":
+                    {
+                        $message = "thất bại"; break;
+                    }
+                case "error_edit":
+                    {
+                        $message = "thất bại"; break;
+                    }
+                case "error_delete":
+                    {
+                        $message = "thất bại"; break;
+                    }
+            }
+            return $message;
+   }
 }
 ?>
