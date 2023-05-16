@@ -1,355 +1,417 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best-Music</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/admin/css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
-<body>
-    <div class="container-fluid nav_container">
-            <div class="menu">
-                <div class="menu-header">
-                    <a href="./QuanLy.php" class="menu-header-logo"> <img src="/image_web/logo.png" class="menu-logo" alt=""></a>
-                </div>
-                <div class="menu-bar">
-                <div class="menu-author w-100 p-3 rounded">
+<?php
+    include '../inc/header.php';
+    include '../controller/SongManager.php';
+?>
+<?php
+    
+    $class = new SongManager();
+    $helper = new Format();
+    $class->get();
+    $class->edit();
+    $class->add();
+    
+    $rEdit = $class->editSong();
+    $rAdd = $class->addSong();
+    $rDelete = $class->deleteSong();
+    $class->search();
 
-                        <div class="author-image">
-                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 48px;"
-                            alt="Avatar" />
-                        </div>
-                        <div class="author-inf">
-                            <p class="author-name si">DoAnMonHoc</p>
-                            <p class="author-em">Admin</p>
-                        </div>
 
-                </div>
-                <div class="menu-content">
-                        <ul class="list-group nav-menu-list">
-                            <li class="list-group-item menu-item">E-Commerce</li>
-                            <li class="list-group-item menu-item rounded-pill">
-                                <a href="ThongKe.php" class="menu-icon-sub rounded-pill" id="tag-statistical">
-                                    <span class="rounded-circle icon-link"><i class="bi bi-bar-chart "></i></span>
-                                    <span class="icon-title">Thống kê</span>
-                                </a>
+    $row = 0;
+    $length = 1;
+    $list = $_SESSION["list"];
+    $trang =$_SESSION["trang"];
+    $object = $_SESSION['object'];
+    $add = $_SESSION['add'];
 
-                            </li>
+    if($list != null)
+        $length = $class->count();
+        $row = ceil($length/6);
+    if($row*6 < $length)
+        $row = $row+1;
 
-                            <li class="list-group-item menu-item" onclick="openTab(id)" id="tag-order">
-                                <a href="#" class="menu-icon-sub">
-                                    <span class="rounded-circle icon-link"><i class="bi bi-music-note"></i></span>
-                                    <span class="icon-title">Nhạc</span>
-                                    <span class="icon-link"> <i class="icon-next bi bi-arrow-right"></i></span>
-                                </a>
-                                <ul class="list-group display-tag-none" myname="False">
-                                    <li class="list-group-item menu-item rounded-pill " id="tag-listView">
-                                        <a href="LoaiNhac.php" class="menu-icon-sub rounded-pill">
-                                            <span class="icon-title sub-list">Loại nhạc</span>
-                                        </a>
-            
-                                    </li>
-                                    <li class="list-group-item menu-item rounded-pill"  id="tag-details">
-                                        <a href="BaiHat.php" class="menu-icon-sub rounded-pill">
-                                            <span class="icon-title sub-list">Bài Hát</span>
-                                        </a>
-            
-                                    </li>
-                                </ul>
+        
+    if($rEdit != null){
+        $message = "Sửa bài hát ".$helper->messageResult($rEdit);
+    }
+    if($rAdd != null){
+        $message = "Thêm bài hát ".$helper->messageResult($rAdd);
+    }
 
-                            </li>
-                            <li class="list-group-item menu-item" onclick="openTab(id)" id="tag-product">
-                                <a href="#" class="menu-icon-sub">
-                                    <span class="rounded-circle icon-link"><i class="bi bi-person"></i></span>
-                                    <span class="icon-title">Người phát triển</span>
-                                    <span class="icon-link"> <i class="icon-next bi bi-arrow-right"></i></span>
-                                </a>
-                                <ul class="list-group display-tag-none" myname="False">
-                                    <li class="list-group-item menu-item rounded-pill" id="tag-listView">
-                                        <a href="CaSi.php" class="menu-icon-sub rounded-pill">
-                                            <span class="icon-title sub-list">Ca sĩ</span>
-                                        </a>
-            
-                                    </li>
-                                    <li class="list-group-item menu-item rounded-pill" id="tag-productDetail">
-                                        <a href="./Album.php" class="menu-icon-sub rounded-pill">
-                                            <span class="icon-title sub-list">Album</span>
-                                        </a>
-            
-                                    </li>
-                                </ul>
+    if($rDelete != null){
+        $message = "Xóa bài hát ".$helper->messageResult($rDelete);
+    }
+    ?>
 
-                            </li>
 
-                            <li class="list-group-item menu-item rounded-pill" id="tag-customer">
-                                <a href="TaiKhoan.php" class="menu-icon-sub rounded-pill">
-                                    <span class="rounded-circle icon-link"><i class="bi bi-person-badge"></i></span>
-                                    <span class="icon-title">Tài khoản</span>
-                                </a>
-                            
 
-                            </li>
-                            
-                        </ul>
-                </div>
-                </div>
+            <!-- Chuyển hướng con trỏ -->
+            <div class="page-header">
+                <h4 class="page-title m-1">Dữ liệu</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="bi bi-house"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="bi bi-arrow-right"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Danh Sách</a>
+                        </li>
+                        <li class="separator">
+                            <i class="bi bi-arrow-right"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Nhạc</a>
+                        </li>
+                    </ul>
             </div>
-            <div class="content">
 
-                <!-- thanh tìm kiếm và user -->
-                <div class="content-slider_bar">
-                    <div class="input-group">
-                        <div class="input-group-prepend rounded">
-                            <button type="submit" class="btn btn-search pr-1">
-                                <i class="rounded bi bi-search"></i>
-                            </button>
-                        </div>
-                        <input type="text" placeholder="Search ..." class="form-control">
-                    </div>
-                    <div class="author-logout" style="position: relative;">
-                        <i class="bi bi-person"></i>
-                        <div class="log-out" >Log Out
-                            <span></span>
-                        </div>
+            <!-- Content -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Thêm Sản Phẩm</h4>
+                        <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                        <a href="BaiHat.php?add=''">
+                        <i class="bi bi-plus"></i>
+                            Thêm bài hát
+                        </a>
+                        </button>
                     </div>
                 </div>
-
-                <!-- Chuyển hướng con trỏ -->
-                <div class="page-header">
-                    <h4 class="page-title m-1">Dữ liệu</h4>
-                        <ul class="breadcrumbs">
-                            <li class="nav-home">
-                                <a href="#">
-                                    <i class="bi bi-house"></i>
-                                </a>
-                            </li>
-                            <li class="separator">
-                                <i class="bi bi-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Danh Sách</a>
-                            </li>
-                            <li class="separator">
-                                <i class="bi bi-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Nhạc</a>
-                            </li>
-                        </ul>
-                </div>
-
-                <!-- Content -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <h4 class="card-title">Thêm Sản Phẩm</h4>
-                            <button class="btn btn-primary btn-round ml-auto btn-add" data-toggle="modal" data-target="#addRowModal">
-                                <i class="bi bi-plus"></i>
-                                Thêm nhạc
-                            </button>
-                        </div>
+                <div class="card-body">
+                        <div class="row m-2">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="add-row_length">
+                                    <label>Show
+                                        <select name="add-row_length" aria-controls="add-row" class="form-control form-control-sm">
+                                            <option value="10">10</option><option value="25">25</option><option value="50">50</option>
+                                            <option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6">
+                                                <div id="add-row_filter" class="dataTables_filter">
+                                                    <label>Search:
+                                                    <form action="" method="post">
+                                                            <input type="search" name="search" value="<?php echo $_SESSION['search']; ?>"   class="form-control form-control-sm" placeholder="" aria-controls="add-row">
+                                                    </form>
+                        </label>
                     </div>
-                    <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="dataTables_length" id="add-row_length">
-                                        <label>Show
-                                            <select name="add-row_length" aria-controls="add-row" class="form-control form-control-sm">
-                                                <option value="10">10</option><option value="25">25</option><option value="50">50</option>
-                                                <option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6">
-                                                    <div id="add-row_filter" class="dataTables_filter">
-                                                        <label>Search:
-                                                            <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="add-row">
-                            </label>
+                    </div>
                         </div>
-                        </div>
+                        <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                            <thead>
+                                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Mã: activate to sort column descending" style="width: 74.05px;">Mã</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Tên: activate to sort column ascending" style="width: 199.475px;">Tên</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Hình: activate to sort column ascending" style="width: 77.775px;">Hình</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Thể loại: activate to sort column ascending" style="width: 92.1625px;">Thể loại</th>
+                                    <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Thể loại: activate to sort column ascending" style="width: 92.1625px;">Ca sĩ</th>
+                                    <th style="width: 196.225px;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">Action</th></tr>
+                            </thead>
+                            <tfoot>
+                                <tr><th rowspan="1" colspan="1">Mã</th><th rowspan="1" colspan="1">Tên</th><th rowspan="1" colspan="1">Hình</th><th rowspan="1" colspan="1">Thể loại</th> <th rowspan="1" colspan="1">Ca sĩ</th> <th rowspan="1" colspan="1">Action</th></tr>
+                            </tfoot>
+                            <tbody>                                                                    
+                            <?php
+                                if($list != null){
+
+                                        foreach($list as $value){
+                                            $id = $value->get_idSong();
+                                            $name = $value->get_name();
+                                            $image = $value->get_image();
+                                            $type = $value->get_idGenreSong();
+                                            $singer = $value->get_idArtist();
+                                            echo'
+                                                <tr role="row" class="odd">
+                                                    <td class="sorting_1">
+                                                    '.$id.'
+                                                    </td>  
+                                                    <td>
+                                                        '.$name.'
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                    '.$image.'
+                                                    </td>  
+                                                    <td>
+                                                        '.$type.'
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                    '.$singer.'
+                                                    </td>  
+                                                    <td>
+                                                            <div class="form-button-action">
+                                                                
+                                                                <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger"
+                                                                data-original-title="Edit">
+                                                                <a href="BaiHat.php?edit='.$id.'">
+                                                                edit</a>
+                                                                </button>
+
+                                                                <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger"
+                                                                data-original-title="delete">
+                                                                
+                                                                <a href="BaiHat.php?delete='.$id.'">
+                                                                <i class="fa fa-times"></i>
+                                                                delete</a>
+                                                                </button>
+                                                
+                                                            </div>  
+                                                    </td>            
+                                                </tr>
+                                            '; 
+                                        }
+                                    }
+                                ?>      
+                                </tbody>
+                        </table>
+                        <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="add-row_info" role="status" aria-live="polite">
+                                    <?php
+                                    echo 'Showing '.$trang.' to '.$row.' of 6 entries '
+                                ?></div>
                             </div>
-                            <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
-                                <thead>
-                                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Mã: activate to sort column descending" style="width: 74.05px;">Mã</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Tên: activate to sort column ascending" style="width: 199.475px;">Tên</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Hình: activate to sort column ascending" style="width: 77.775px;">Hình</th><th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Thể loại: activate to sort column ascending" style="width: 92.1625px;">Thể loại</th><th style="width: 196.225px;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">Action</th></tr>
-                                </thead>
-                                <tfoot>
-                                    <tr><th rowspan="1" colspan="1">Mã</th><th rowspan="1" colspan="1">Tên</th><th rowspan="1" colspan="1">Hình</th><th rowspan="1" colspan="1">Thể loại</th><th rowspan="1" colspan="1">Action</th></tr>
-                                </tfoot>
-                                <tbody>                                                                    
-                                    <tr role="row" class="odd">
-                                                <td class="sorting_1">DN10</td>
-                                                <td>Mlem Mlem</td>
-                                                
-                                                <td><img src="/image_web/1639639214-bg.jpg" style="height: 50px; width: 40px;"></td>
-                                                <td>jp</td>
-                                                <td>
-                                                    <div class="form-button-action">
-                                                        <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN10">
-                                                            <i class="fa fa-edit"></i> edit
-                                                        </a></button>
-                                                        <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN10">
-                                                        <i class="fa fa-times"></i> delete</a>
-                                                        </button>
-                                                
-                                                    </div>
-                                                </td>
-                                                
-                                            </tr>
-                                    <tr role="row" class="even">
-                                                <td class="sorting_1">DN66</td>
-                                                <td>Magic Love</td>
-                                            
-                                                <td><img src="/image_web/1639639214-bg.jpg" style="height: 50px; width: 40px;"></td>
-                                                <td>tq</td>
-                                                <td>
-                                                    <div class="form-button-action">
-                                                        <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN66">
-                                                            <i class="fa fa-edit"></i> edit
-                                                        </a></button>
-                                                        <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN66">
-                                                        <i class="fa fa-times"></i> delete</a>
-                                                        </button>
-                                                
-                                                    </div>
-                                                </td>
-                                                
-                                            </tr>
-                                    <tr role="row" class="odd">
-                                                <td class="sorting_1">DN76</td>
-                                                <td>Muộn rồi mà sao còn</td>
-                                            
-                                                <td><img src="/image_web/1639639214-bg.jpg" style="height: 50px; width: 40px;"></td>
-                                                <td>2</td>
-                                                <td>
-                                                    <div class="form-button-action">
-                                                        <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN76">
-                                                            <i class="fa fa-edit"></i> edit
-                                                        </a></button>
-                                                        <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN76">
-                                                        <i class="fa fa-times"></i> delete</a>
-                                                        </button>
-                                                
-                                                    </div>
-                                                </td>
-                                                
-                                            </tr>
-                                    <tr role="row" class="even">
-                                                <td class="sorting_1">DN99</td>
-                                                <td>Arigatou sayonara</td>
-                                            
-                                                <td><img src="/image_web/1639639214-bg.jpg" style="height: 50px; width: 40px;"></td>
-                                                <td>jp</td>
-                                                <td>
-                                                    <div class="form-button-action">
-                                                        <button type="button" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"><a href="index.php?controller=sanphamcontroller&amp;action=sua&amp;id=DN99">
-                                                            <i class="fa fa-edit"></i> edit
-                                                        </a></button>
-                                                        <button type="submit" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"><a href="index.php?controller=sanphamcontroller&amp;action=delete&amp;id=DN99">
-                                                        <i class="fa fa-times"></i> delete</a>
-                                                        </button>
-                                                
-                                                    </div>
-                                                </td>
-                                                
-                                            </tr>
-                                    </tbody>
-                            </table>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-5">
-                                    <div class="dataTables_info" id="add-row_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
-                                </div>
-                                <div class="col-sm-12 col-md-7">
-                                    <div class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
-                                        <ul class="pagination">
-                                            <li class="paginate_button page-item previous disabled" id="add-row_previous">
-                                                <a href="#" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                            </li>
-                                            <li class="paginate_button page-item active">
-                                                <a href="#" aria-controls="add-row" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                            </li>
-                                            <li class="paginate_button page-item next disabled" id="add-row_next">
-                                                <a href="#" aria-controls="add-row" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
+                                    <ul class="pagination">
+                                    <?php
+                                            if($trang == 1){
+                                                echo'
+                                                <li class="disabled paginate_button page-item previous" id="add-row_previous">
+                                                <a aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                                ';
+                                            }else{
+                                                echo'
+                                                <li class=" paginate_button page-item previous" id="add-row_previous">
+                                                <a href="BaiHat.php?trang='.($trang-1).'" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                                ';
+                                            }
+                                            for($i = 1;$i <= $row; $i++)
+                                            {
+                                                if($trang != $i){
+                                                    echo '<li class="paginate_button page-item active" ><a href="BaiHat.php?trang='.$i.'"
+                                                    id='.$i.' style="background-color: blue !important"  aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                                                     class="page-link">'.$i.'</a></li>';
+                                                }else{
+                                                    echo '<li class="paginate_button page-item active" ><a href="#"
+                                                    id='.$i.' style="background-color: red !important"  aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                                                     class="page-link">'.$i.'</a></li>';
+                                                }
+                                               
+                                            }
+
+                                            if($trang == $row){
+                                                echo'
+                                                <li class="disabled paginate_button page-item previous" id="add-row_previous">
+                                                <a aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+                                                </li>
+                                                ';
+                                            }else{
+                                                echo'
+                                                <li class=" paginate_button page-item previous" id="add-row_previous">
+                                                <a href="BaiHat.php?trang='.($trang+1).'" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+                                                </li>
+                                                ';
+                                            }
+                                            ?>
+                                    </ul>
                                 </div>
                             </div>
-                    </div>
+                        </div>
                 </div>
             </div>
-  
         </div>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Trợ giúp
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Giấy phép
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="copyright ml-auto">
-                        2023, made with <i class="bi bi-heart text-danger"></i> by <a href="">Nguyễn Hửu Trọng - Lê Quang Trường - Nguyễn Minh Tiến</a>
-                    </div>				
-                </div>
-            </footer>
+                                            
+    </div>
+    <?php
+            include '../inc/footer.php'
+        ?>
+    </div>
+    <?php
+   if($object != null){
+    $listGenre = $class->getAllType();
+    $listSinger = $class->getAllSinger();
+    $listAlbum = $class->getAllAlbum();
+
+    $image ="/image/".$object->get_image();
+    $audio = "/music/".$object->get_link();
+
+    echo'
+    <form action="BaiHat.php" method="post" class="form-add align-content-center justify-content-center " style="display: flex;">
+    <div class="form-group add-form" >
+         <a href="BaiHat.php?trang='.($trang).'" >
+            <i class="out bi bi-x-circle-fill"></i>
+       </a>
+        <h1 class="card-title text-center m-lg-3 mt-0" >
+            Thông tin album
+        </h1>
+
+        <span >Mã bài hát:</span> <input name="idEdit" required="required" readonly="readonly" value="'.$object->get_idSong().'" type="text">
+        <span >Tên bài hát:</span> <input name="nameEdit" required="required" value="'.$object->get_name().'" type="text"> <br><br>
+        <span style="">Loại bài hát: </span>
+        <select id="Category"  name="genreEdit" >
+        ';
+        $name = $class->searchIdType($object->get_idGenreSong())->get_name();
+        echo '<option>'.$name.'</option>';
+        foreach($listGenre as $genre){
+            if($name != $genre->get_name())
+                echo '<option>'.$genre->get_name().'</option>';
+        }   
+        echo'
+        </select>
+        <span style="margin-left: 107px;">Ca sĩ: </span>
+        <select id="singer"  name="singerEdit" >
+        ';
+        $name = $class->searchIdArtist($object->get_idArtist())->get_name();
+        echo '<option>'.$name.'</option>';
+        foreach($listSinger as $singer){
+            if($name != $singer->get_name())
+            echo '<option>'.$singer->get_name().'</option>';
+        }   
+        echo'
        
-        <div class="form-group add-form" style="display: none;">
-            <h1 class="card-title text-center m-lg-3 mt-0" >
-                Thông tin sản phẩm
-            </h1>
-            <span>Mã sản phẩm:</span> <input type="text"> <br><br>
-            <span>Tên sản phẩm:</span> <input type="text"><br><br>
-            <span>Thể Loại: </span>
-            <select name="selectType" id="typeMusic">
-                
-                <option value="">Nhạc trẻ</option>
-            </select>
-            <br>
-            <br>
-            <div class="link-source text-center">
-                
-                <span>Đường dẫn</span>
-               <input type="text" style="font-size: 12px;"  disabled>
-                <button style="font-size: 12px; border: none;">Chọn tệp </button>
+        </select> 
+        <br>
+        <br>
+        <span style="">Album: </span>
+        
+        <select id="Album"  name="albumEdit" >
+        ';
+        $name = $class->searchIdAlbum($object->get_idAlbum())->get_name();
+        echo '<option>'.$name.'</option>';
+        foreach($listAlbum as $album){
+            if($name != $album->get_name())
+            echo '<option>'.$album->get_name().'</option>';
+        }   
+        echo'
+        </select>   
+        <br>
+        <div class="optionAdd">
+            <div class="d-block text-center">
+                <br><br>
+                Lựa chọn: <br>
+                <button  type="submit" value="edit" class="load-form btn btn-primary btn-round ml-auto text-center " style="width: 150px; height: 40px; margin-top: 15px;">
+                        
+                <i class="bi bi-plus"></i>
+                    Sửa nhạc
+                </button>
             </div>
+            <div class="image-add" style="position: relative;">
+            <img style="width:150px;height:150px" class="update-image" src="'.$image.'" alt="Image preview...">
+            <input onchange="readUrl(this)"  type="file" name="imageEdit" class="text-center" style="position: absolute; bottom: -30px; border: none;left:24%;width:82px" id="imageEdit" > 
+            </div>
+            <div class="image-add" style="position: relative;">
+            <span >Chọn link nhạc:</span>
+                <audio class=" audioTest" controls>
+                <source class="update-audio" src="'.$audio.'" type="audio/mpeg">
+                Your browser does not support the audio element.
+                </audio>
+            <input onchange="readUrlAudio(this)" name="audioEdit" class="text-center" style="position: absolute; bottom: -30px; border: none;left:24%;width:82px" id="audioEdit"  type="file"> 
+            </div>
+        </div>
+        
+
+    </div>
+</form>
+    ';
+}
+    if($add != null){
+        $listGenre = $class->getAllType();
+        $listSinger = $class->getAllSinger();
+        $listAlbum = $class->getAllAlbum();
+
+        echo'
+        <form action="BaiHat.php" method="post" class="form-add align-content-center justify-content-center " style="display: flex;">
+        <div class="form-group add-form" >
+             <a href="BaiHat.php?trang='.($trang).'" >
+                <i class="out bi bi-x-circle-fill"></i>
+           </a>
+            <h1 class="card-title text-center m-lg-3 mt-0" >
+                Thông tin album
+            </h1>
+    
+            <span >Mã bài hát:</span> <input name="idAdd" required="required" readonly="readonly" value="'.$add.'" type="text">
+            <span >Tên bài hát:</span> <input name="nameAdd" required="required" value="" type="text"> <br><br>
+            <span style="">Loại bài hát: </span>
+            <select id="Category"  name="genreAdd" >
+            ';
+            foreach($listGenre as $genre){
+                echo '<option>'.$genre->get_name().'</option>';
+            }   
+            echo'
+            </select>
+            <span style="margin-left: 107px;">Ca sĩ: </span>
+            <select id="singer"  name="singerAdd" >
+            ';
+            foreach($listSinger as $singer){
+                echo '<option>'.$singer->get_name().'</option>';
+            }   
+            echo'
+           
+            </select> 
+            <br>
+            <br>
+            <span style="">Album: </span>
+            
+            <select id="Album"  name="albumAdd" >
+            ';
+            foreach($listAlbum as $album){
+                echo '<option>'.$album->get_name().'</option>';
+            }   
+            echo'
+            </select>   
+            <br>
             <div class="optionAdd">
-                <div class="d-block">
+                <div class="d-block text-center">
+                    <br><br>
                     Lựa chọn: <br>
-                    <button class="btn btn-primary btn-round ml-auto text-center " style="width: 90px; height: 40px; margin-top: 15px;">
-                        <i class="bi bi-plus"></i>
-                        Thêm
-                    </button>
-                    <br>
-                    <button class="btn btn-primary btn-round ml-auto text-center " style="width: 90px; height: 40px; margin-top: 15px;">
-                        <i class="bi bi-plus"></i>
-                        Sửa
-                    </button>
-                    <br>
-                    <button class="btn btn-primary btn-round ml-auto text-center " style="width: 90px; height: 40px; margin-top: 15px;">
-                        <i class="bi bi-plus"></i>
-                        Xóa
+                    <button  type="submit" value="add" class="load-form btn btn-primary btn-round ml-auto text-center " style="width: 150px; height: 40px; margin-top: 15px;">
+                            
+                    <i class="bi bi-plus"></i>
+                        Thêm nhạc
                     </button>
                 </div>
                 <div class="image-add" style="position: relative;">
-                    <button class="text-center" style="position: absolute; bottom: -30px; border: none; margin-left: 35px;">Chọn ảnh</button>
+                <img style="width:150px;height:150px" class="update-image" src="" alt="Image preview...">
+                <input onchange="readUrl(this)"  type="file" name="imageAdd" class="text-center" style="position: absolute; bottom: -30px; border: none;left:24%;width:82px" id="imageAdd" > 
                 </div>
-               
-                
+                <div class="image-add" style="position: relative;">
+                <span >Chọn link nhạc:</span>
+                    <audio class=" audioTest" controls>
+                    <source class="update-audio" src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                    </audio>
+                <input onchange="readUrlAudio(this)" name="audioAdd" class="text-center" style="position: absolute; bottom: -30px; border: none;left:24%;width:82px" id="audioAdd"  type="file"> 
+                </div>
             </div>
             
-
+    
         </div>
-    </div>
-    <script src="/admin/js/main.js"></script>
+    </form>
+        ';
+    }
+   ?>
+   
+   <?php
+    if($rEdit != null || $rAdd != null || $rDelete != null){
+        echo'
+                        <div class="message-action" style="width:100%;display:flex;justify-content:center">
+                        <div id="msgAlert" class="panel-body text-center" style="position: fixed;top:0;z-index: 1001; width:130%;">
+                        <div class="form-alert">
+                            <div class="alert">
+                                '.$message.'
+                            </div>
+                        </div>
+                        
+                    </div>
+                    </div>
+                    
+                <script>
+                setTimeout(function(){
+                    $("#msgAlert").fadeOut("slow");
+                },2000); 
+
+                </script>
+        ';
+    }
+   ?>
 </body>
 </html>

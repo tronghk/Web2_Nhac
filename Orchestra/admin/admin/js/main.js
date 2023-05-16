@@ -1,4 +1,5 @@
-
+const logOut = document.querySelector('.author-logout i');
+const end = document.querySelector('.log-out');
 function openTab(id){
     const tagChild = document.querySelector("#"+id+' ul')
     if(tagChild != null){
@@ -19,40 +20,72 @@ function openTab(id){
 }
    
 }
-function loadStarted(id){
+// function load(element){
 
-    const tagName = document.getElementById(id);
-    if(tagName != null){
-    const tagChild  = tagName.firstElementChild;
-    const tagChildSpan = tagChild.firstElementChild;
-    const tagChildIcon = tagChildSpan.firstElementChild;
-    const tagSecondChildSpan = tagChild.children[1];
+//     const tagName = document.getElementById(element);
+//     if(tagName != null){
+//     const tagChild  = tagName.firstElementChild;
+//     const tagChildSpan = tagChild.firstElementChild;
+//     const tagChildIcon = tagChildSpan.firstElementChild;
+//     const tagSecondChildSpan = tagChild.children[1];
  
-    const tagDel = document.querySelector('.setBackGroundMenu');
-    const tagChildDel = document.querySelector('.setBackGroundChildMenu');
+//     const tagDel = document.querySelector('.setBackGroundMenu');
+//     const tagChildDel = document.querySelector('.setBackGroundChildMenu');
  
-    const tagSpanDel = document.querySelectorAll('.navColor');
-    const tagIcondel = document.querySelector('.navTransform');
+//     const tagSpanDel = document.querySelectorAll('.navColor');
+//     const tagIcondel = document.querySelector('.navTransform');
  
-    //hủy màu
-     tagSpanDel.forEach(element => {
-         $(element).removeClass("navColor");
-     });
-     $(tagIcondel).removeClass("navTransform");
+//     //hủy màu
+//      tagSpanDel.forEach(element => {
+//          $(element).removeClass("navColor");
+//      });
+//      $(tagIcondel).removeClass("navTransform");
  
  
-    $(tagDel).removeClass("setBackGroundMenu");
-    $(tagChildDel).removeClass("setBackGroundChildMenu");
+//     $(tagDel).removeClass("setBackGroundMenu");
+//     $(tagChildDel).removeClass("setBackGroundChildMenu");
  
-     //thêm màu
-    $(tagChildSpan).addClass("navColor");
-    $(tagChildIcon).addClass("navTransform");
-    $(tagSecondChildSpan).addClass("navColor");
-     $(tagName).addClass("setBackGroundMenu");
-     $(tagChild).addClass("setBackGroundChildMenu");
-    }
-}
-loadStarted('load');
+//      //thêm màu
+//     $(tagChildSpan).addClass("navColor");
+//     $(tagChildIcon).addClass("navTransform");
+//     $(tagSecondChildSpan).addClass("navColor");
+//      $(tagName).addClass("setBackGroundMenu");
+//      $(tagChild).addClass("setBackGroundChildMenu");
+//     }
+// }
+
+// $("#user").on('load',function(){
+//     const tagName = document.getElementById("user");
+//     if(tagName != null){
+//     const tagChild  = tagName.firstElementChild;
+//     const tagChildSpan = tagChild.firstElementChild;
+//     const tagChildIcon = tagChildSpan.firstElementChild;
+//     const tagSecondChildSpan = tagChild.children[1];
+ 
+//     const tagDel = document.querySelector('.setBackGroundMenu');
+//     const tagChildDel = document.querySelector('.setBackGroundChildMenu');
+ 
+//     const tagSpanDel = document.querySelectorAll('.navColor');
+//     const tagIcondel = document.querySelector('.navTransform');
+ 
+//     //hủy màu
+//      tagSpanDel.forEach(element => {
+//          $(element).removeClass("navColor");
+//      });
+//      $(tagIcondel).removeClass("navTransform");
+ 
+ 
+//     $(tagDel).removeClass("setBackGroundMenu");
+//     $(tagChildDel).removeClass("setBackGroundChildMenu");
+ 
+//      //thêm màu
+//     $(tagChildSpan).addClass("navColor");
+//     $(tagChildIcon).addClass("navTransform");
+//     $(tagSecondChildSpan).addClass("navColor");
+//      $(tagName).addClass("setBackGroundMenu");
+//      $(tagChild).addClass("setBackGroundChildMenu");
+//     }
+// })
 openTab('openTab');
 // window.onload = function() {
 
@@ -80,46 +113,43 @@ openTab('openTab');
 //     }
 
 
-window.onload = function () {
+// $('.loadsta').click(function(){
+//     var chart = new CanvasJS.Chart("canvas_chart", {
+//         exportEnabled: true,
+//         backgroundColor: "#ccc",
+//         animationEnabled: true,
+//         title:{
+//             text: "Biểu đồ thống kê bài hát"
+//         },
+//         legend:{
+//             cursor: "pointer",
+//             itemclick: explodePie
+//         },
+//         data: [{
+//             type: "pie",
+//             showInLegend: true,
+//             toolTipContent: "{name}: <strong>{y}%</strong>",
+//             indexLabel: "{name} - {y}%",
+//             dataPoints: [
+//                 { y: 25, name: "Nơi này có anh", exploded: true },
+//                 { y: 15, name: "Chỉ riêng em" },
+//                 { y: 10, name: "Khác biệt" },
+//                 { y: 50, name: "Bài hát khác" }
+//             ]
+//         }]
+//     });
+//     chart.render();
+    
+//     function explodePie (e) {
+//         if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+//             e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+//         } else {
+//             e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+//         }
+//         e.chart.render();
+//     }
+// });
 
-    var chart = new CanvasJS.Chart("canvas_chart", {
-        exportEnabled: true,
-        backgroundColor: "#ccc",
-        animationEnabled: true,
-        title:{
-            text: "Biểu đồ thống kê bài hát"
-        },
-        legend:{
-            cursor: "pointer",
-            itemclick: explodePie
-        },
-        data: [{
-            type: "pie",
-            showInLegend: true,
-            toolTipContent: "{name}: <strong>{y}%</strong>",
-            indexLabel: "{name} - {y}%",
-            dataPoints: [
-                { y: 25, name: "Nơi này có anh", exploded: true },
-                { y: 15, name: "Chỉ riêng em" },
-                { y: 10, name: "Khác biệt" },
-                { y: 50, name: "Bài hát khác" }
-            ]
-        }]
-    });
-    chart.render();
-    }
-    
-    function explodePie (e) {
-        if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
-            e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
-        } else {
-            e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
-        }
-        e.chart.render();
-    
-}
-const logOut = document.querySelector('.author-logout i');
-const end = document.querySelector('.log-out');
 var tagLog = false;
 
 $('body').click(function(){
@@ -141,3 +171,30 @@ $(logOut).click(function(){
 //     const add = document.querySelector('.add-form');
 //     add.style.display = 'block';
 // })
+
+function readUrl(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('.update-image')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(150);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function readUrlAudio(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('.update-audio')
+                .attr('src', e.target.result)
+                .width(150)
+                .height(150);
+        };
+        reader.readAsDataURL(input.files[0]);
+        document.querySelector('.audioTest').load();
+    }
+}
